@@ -1,6 +1,11 @@
 # Broken Char
 
+![npm version](https://img.shields.io/npm/v/broken-char)
+![MLoT](https://img.shields.io/badge/MLoT-ai-blue)
+
 A comprehensive CLI tool to detect problematic characters and writing style issues in codebases. Finds characters that may display as red blocks, cause parsing errors, or indicate AI-generated content.
+
+![Demo](https://raw.githubusercontent.com/incrediblecrab/Packages-and-Extensions-Media/main/broken-char.gif)
 
 ## Features
 
@@ -200,6 +205,18 @@ mlot.ai
 ## Contributing
 
 Issues and pull requests are welcome. Please ensure all tests pass and linting is clean before submitting PRs.
+
+## Resources
+
+- 📺 [Watch Demo Video](https://youtu.be/apuLruNqoIw)
+- 🌐 [Visit MLoT Page](https://mlot.ai/broken-char/)
+- 📦 [View on GitHub](https://github.com/incrediblecrab/broken-char)
+- 🔒 [Privacy Policy](https://mlot.ai/privacy)
+
+## Publisher
+
+**Max's Lab of Things**
+Visit [mlot.ai](https://mlot.ai/)
 
 ## Changelog
 

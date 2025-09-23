@@ -1,6 +1,6 @@
 {
   "name": "broken-char",
-  "version": "0.0.1",
+  "version": "1.5.0",
   "description": "CLI tool to detect problematic characters and writing style issues in codebases",
   "main": "src/index.js",
   "bin": {
@@ -27,12 +27,15 @@
     "ai-detection",
     "writing-style"
   ],
-  "author": "mlot.ai",
+  "author": {
+    "name": "Max Marquardt",
+    "url": "https://mlot.ai"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/incrediblecrab/broken-char/issues"
   },
-  "homepage": "https://github.com/incrediblecrab/broken-char#readme",
+  "homepage": "https://mlot.ai/",
   "dependencies": {
     "chalk": "^4.1.2",
     "commander": "^9.4.1",

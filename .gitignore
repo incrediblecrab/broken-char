@@ -186,3 +186,6 @@ site/
 .AppleDouble
 .LSOverride
 .env.*.local
+
+# --- project-specific (auto-added 2026-08-04) ---
+.npm/

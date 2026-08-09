@@ -5,7 +5,7 @@
 
 A comprehensive CLI tool to detect problematic characters and writing style issues in codebases. Finds characters that may display as red blocks, cause parsing errors, or indicate AI-generated content.
 
-![Demo](https://raw.githubusercontent.com/incrediblecrab/Packages-and-Extensions-Media/main/gifs/broken-char.gif)
+![Demo](https://raw.githubusercontent.com/incrediblecrab/mlot-developer-media/main/gifs/broken-char.gif)
 
 ## Features
 

@@ -175,14 +175,6 @@ npm test
 npm run lint
 ```
 
-## License
-
-MIT
-
-## Author
-
-mlot.ai
-
 ## Use Cases
 
 - **CI/CD Integration**: Fail builds containing problematic characters
@@ -198,26 +190,6 @@ mlot.ai
 - Supports large codebases
 - Early exit when max issues reached
 
-## Repository
-
-[https://github.com/incrediblecrab/broken-char](https://github.com/incrediblecrab/broken-char)
-
-## Contributing
-
-Issues and pull requests are welcome. Please ensure all tests pass and linting is clean before submitting PRs.
-
-## Resources
-
-- 📺 [Watch Demo Video](https://youtu.be/apuLruNqoIw)
-- 🌐 [Visit MLoT Page](https://mlot.ai/broken-char/)
-- 📦 [View on GitHub](https://github.com/incrediblecrab/broken-char)
-- 🔒 [Privacy Policy](https://mlot.ai/privacy)
-
-## Publisher
-
-**Max's Lab of Things**
-Visit [mlot.ai](https://mlot.ai/)
-
 ## Changelog
 
 ### v0.0.1
@@ -229,3 +201,18 @@ Visit [mlot.ai](https://mlot.ai/)
 - Optional comprehensive non-ASCII character detection
 - Recursive directory scanning with glob patterns
 - JSON output for CI/CD integration
+
+## Resources
+
+- 📺 [Watch Demo Video](https://youtu.be/apuLruNqoIw)
+- 🌐 [Visit MLoT Page](https://mlot.ai/broken-char/)
+- 🔒 [Privacy Policy](https://mlot.ai/privacy)
+
+## Publisher
+
+**Max's Lab of Things**
+Visit [mlot.ai](https://mlot.ai/)
+
+## License
+
+MIT

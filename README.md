@@ -1,137 +1,86 @@
-# Broken Char
+# broken-char
 
-![npm version](https://img.shields.io/npm/v/broken-char)
-![MLoT](https://img.shields.io/badge/MLoT-ai-blue)
+![npm version](https://img.shields.io/npm/v/broken-char) ![MLoT](https://img.shields.io/badge/MLoT-ai-blue)
 
-A comprehensive CLI tool to detect problematic characters and writing style issues in codebases. Finds characters that may display as red blocks, cause parsing errors, or indicate AI-generated content.
+Broken Char is a Node.js CLI and CommonJS library for finding characters that can make source files hard to read, render or parse. It is published on npm as [`broken-char`](https://www.npmjs.com/package/broken-char) version 1.5.1, matching this repository.
 
 ![Demo](https://raw.githubusercontent.com/incrediblecrab/mlot-developer-media/main/gifs/broken-char.gif)
 
-## Features
+**Objective:** help maintainers audit a repository for control characters, emoji, decorative Unicode, ASCII art and punctuation patterns before those characters surprise an editor, parser or review process.
 
-- ✓ Detects ALL control characters that display as red blocks
-- ✓ Finds emojis, unicode symbols, and ASCII art in code
-- ✓ Identifies excessive punctuation patterns
-- ✓ Recursive directory scanning with glob patterns
-- ✓ Configurable severity levels and output formats
-- ✓ Fast performance with minimal dependencies
-- ✓ Zero security vulnerabilities
+**Inputs:** Node.js, files or directories on disk, and optional glob include and ignore patterns passed to the CLI.
 
-## Installation
+**Files:**
 
-```bash
-npm install -g broken-char
-```
+- [`bin/`](bin/): the `broken-char` executable
+- [`src/`](src/): scanner, detectors and the CommonJS package entry point
+- [`test/`](test/): Jest coverage for detectors and scanner behavior
+- [`CHANGELOG.md`](CHANGELOG.md): release notes
+- [`SECURITY.md`](SECURITY.md): security reporting policy
+- [`package.json`](package.json): npm metadata, scripts and the `broken-char` bin mapping
 
-## Usage
+**Try it:** `npm install -g broken-char`, then `broken-char . --summary`, or run the checked-out copy with `node bin/broken-char.js --help`.
 
-```bash
-broken-char [path] [options]
-```
+## CLI reference
 
-### Examples
+`broken-char [path] [options]` scans a file or directory, using `.` when no path is supplied.
 
-```bash
-# Scan current directory recursively
-broken-char
+Options verified against `bin/broken-char.js`:
 
-# Scan specific file
-broken-char src/app.js
+- `-p, --pattern <pattern>` sets the glob for files to include; the default is `**/*`.
+- `-i, --ignore <patterns...>` adds ignored globs; the defaults skip `node_modules`, `.git`, `dist`, `build`, minified JavaScript and source maps.
+- `--no-emoji`, `--no-unicode`, `--no-ascii-art`, `--no-punctuation` and `--no-control-chars` disable detector groups.
+- `--all-non-ascii` reports every non-ASCII character instead of only the more targeted Unicode checks.
+- `--severity <level>` accepts `all` or `high`; `all` is the default.
+- `--json` writes JSON to stdout.
+- `--summary` prints only the summary.
+- `--max-issues <number>` caps displayed issues; the default is `100`.
 
-# Scan directory with custom pattern
-broken-char src --pattern "**/*.{js,ts}"
+The CLI exits `0` when no issues are found and exits `1` when it finds issues or encounters an error.
 
-# Show only high severity issues (control chars that display as red blocks)
-broken-char --severity high
+## What it detects
 
-# Find ALL non-ASCII characters
-broken-char --all-non-ascii
+### Emojis and Unicode
 
-# Output as JSON for CI/CD integration
-broken-char --json
+- All emoji characters, using `emoji-regex` detection.
+- Unicode symbols such as arrows, mathematical operators and currency symbols.
+- The replacement character.
 
-# Quick summary without details
-broken-char --summary
+### ASCII art
 
-# Disable specific checks
-broken-char --no-emoji --no-punctuation
+- Box drawing characters such as `╔`, `╗`, `╚`, `╝`, `║`, `═`, `╠`, `╣`, `╦`, `╩` and `╬`.
+- Block elements such as `▀`, `▁`, `▂`, `▃`, `▄`, `▅`, `▆`, `▇` and `█`.
+- Geometric shapes such as `■`, `□`, `▢`, `▣`, `▤`, `▥`, `▦`, `▧`, `▨` and `▩`.
+- Braille patterns, mathematical symbols and Private Use Area characters.
 
-# Custom ignore patterns
-broken-char --ignore "**/vendor/**" "**/third-party/**"
-```
+### Excessive punctuation
 
-### Options
+- Em dashes and en dashes.
+- Multiple consecutive hyphens.
+- Excessive exclamation marks or question marks.
+- Decorative quote pairs and high punctuation density.
 
-- `-p, --pattern <pattern>` - Glob pattern for files to include (default: `**/*`)
-- `-i, --ignore <patterns...>` - Glob patterns for files to ignore (default: node_modules, .git, dist, build)
-- `--no-emoji` - Disable emoji detection
-- `--no-unicode` - Disable unicode symbol detection
-- `--no-ascii-art` - Disable ASCII art detection
-- `--no-punctuation` - Disable excessive punctuation detection
-- `--no-control-chars` - Disable control character detection
-- `--all-non-ascii` - Enable comprehensive non-ASCII character detection
-- `--severity <level>` - Minimum severity level: all, high (default: all)
-- `--json` - Output results as JSON
-- `--summary` - Show summary only
-- `--max-issues <number>` - Maximum number of issues to display (default: 100)
+### Control characters
 
-## What It Detects
+- C0 control characters from `0x00` to `0x1F`, excluding common whitespace such as tab, LF and CR by default.
+- C1 control characters from `0x80` to `0x9F`.
+- DEL, `0x7F`.
+- Control-character findings are high severity except tab, LF and CR.
 
-### 1. Emojis and Unicode
-- All emoji characters (comprehensive emoji-regex detection)
-- Unicode symbols (arrows, mathematical operators, currency symbols, etc.)
-- Replacement character (�)
+### Comprehensive non-ASCII detection
 
-### 2. ASCII Art
-- Box drawing characters (╔╗╚╝║═╠╣╦╩╬)
-- Block elements (▀▁▂▃▄▅▆▇█)
-- Geometric shapes (■□▢▣▤▥▦▧▨▩)
-- Braille patterns
-- Mathematical symbols
-- Private Use Area characters
-- And many more decorative Unicode blocks
+When `--all-non-ascii` is enabled, Broken Char reports every character above ASCII range, including Latin Extended, Greek, Cyrillic, Hebrew, Arabic, CJK characters, mathematical symbols, emoji, pictographs and any character with a code point above 127.
 
-### 3. Excessive Punctuation
-- Em dashes (—)
-- En dashes (–) 
-- Multiple consecutive hyphens (--)
-- Excessive exclamation marks (!!!)
-- Excessive question marks (???)
-- Decorative quotes ("" '')
-- High punctuation density
+## Exit codes
 
-### 4. Control Characters (ALL)
-- **C0 Control Characters (0x00-0x1F):**
-  - All 32 C0 controls including null byte, bell, escape, etc.
-  - These typically display as red blocks or cause display issues
-  - Common whitespace (tab, LF, CR) excluded by default
-- **C1 Control Characters (0x80-0x9F):**
-  - All 32 C1 extended controls
-  - Often display as red blocks in modern systems
-- **DEL character (0x7F)**
-- All marked as high severity (except tab/LF/CR)
+- `0`: no issues found.
+- `1`: issues found or an error occurred.
 
-### 5. Comprehensive Non-ASCII Detection (optional)
-When enabled with `--all-non-ascii`, detects ALL characters above ASCII range:
-- Latin Extended (À-ÿ and beyond)
-- Greek, Cyrillic, Hebrew, Arabic, etc.
-- CJK characters (Chinese, Japanese, Korean)
-- Mathematical symbols
-- Emoji and pictographs
-- Any character with code point > 127
-- Categorizes by Unicode block for easy identification
-
-## API Usage
+## Library use
 
 ```javascript
-const { 
-  scanFiles, 
-  detectEmojis, 
-  detectControlCharacters,
-  detectAllNonAscii 
-} = require('broken-char');
+const { scanFiles, detectEmojis, detectControlCharacters, detectAllNonAscii } = require('broken-char');
 
-// Scan entire directory
 const results = await scanFiles('./src', {
   checkEmoji: true,
   checkControlChars: true,
@@ -139,80 +88,27 @@ const results = await scanFiles('./src', {
 });
 
 console.log(`Found ${results.totalIssues} issues in ${results.fileCount} files`);
-
-// Use individual detectors
-const text = fs.readFileSync('file.txt', 'utf8');
-const emojis = detectEmojis(text, 'file.txt', 1);
-const controlChars = detectControlCharacters(text, 'file.txt', 1);
-const nonAscii = detectAllNonAscii(text, 'file.txt', 1);
 ```
-
-## Default Ignore Patterns
-
-By default, the following are ignored:
-- `**/node_modules/**`
-- `**/.git/**`
-- `**/dist/**`
-- `**/build/**`
-- `**/*.min.js`
-- `**/*.map`
-
-## Exit Codes
-
-- `0` - No issues found
-- `1` - Issues found or error occurred
 
 ## Development
 
 ```bash
-# Install dependencies
 npm install
-
-# Run tests
 npm test
-
-# Run linter
 npm run lint
 ```
 
-## Use Cases
+`npm run lint` checks `src` and `bin` with ESLint. `npm test` runs the Jest tests under `test/`.
 
-- **CI/CD Integration**: Fail builds containing problematic characters
-- **Code Quality**: Enforce consistent character usage across teams
-- **Security**: Detect hidden control characters that could affect parsing
-- **Accessibility**: Find characters that may not display correctly
-- **Content Moderation**: Identify potential AI-generated content patterns
+## Links
 
-## Performance
-
-- Scans thousands of files in seconds
-- Minimal memory footprint
-- Supports large codebases
-- Early exit when max issues reached
-
-## Changelog
-
-### v0.0.1
-- Initial release
-- Detects ALL control characters (C0, C1, DEL) that display as red blocks
-- Comprehensive emoji and Unicode symbol detection
-- ASCII art and box drawing character detection
-- Excessive punctuation pattern detection
-- Optional comprehensive non-ASCII character detection
-- Recursive directory scanning with glob patterns
-- JSON output for CI/CD integration
-
-## Resources
-
-- 📺 [Watch Demo Video](https://youtu.be/apuLruNqoIw)
-- 🌐 [Visit MLoT Page](https://mlot.ai/broken-char/)
-- 🔒 [Privacy Policy](https://mlot.ai/privacy)
-
-## Publisher
-
-**Max's Lab of Things**
-Visit [mlot.ai](https://mlot.ai/)
+- [npm package](https://www.npmjs.com/package/broken-char)
+- [Demo video](https://youtu.be/apuLruNqoIw)
+- [MLoT product page](https://mlot.ai/broken-char/)
+- [Privacy policy](https://mlot.ai/privacy)
+- [Issues](https://github.com/incrediblecrab/broken-char/issues)
+- Publisher: [Max's Lab of Things](https://mlot.ai/)
 
 ## License
 
-MIT
+MIT. See [`LICENSE`](LICENSE).

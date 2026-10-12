@@ -32,3 +32,5 @@ scripts/
 .cache/
 tmp/
 temp/
+# Agent instructions
+CLAUDE.md

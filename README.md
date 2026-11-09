@@ -93,7 +93,7 @@ console.log(`Found ${results.totalIssues} issues in ${results.fileCount} files`)
 ## Development
 
 ```bash
-npm install
+pnpm install
 npm test
 npm run lint
 ```
